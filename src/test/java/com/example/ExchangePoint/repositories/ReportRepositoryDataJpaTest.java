@@ -1,8 +1,6 @@
 package com.example.ExchangePoint.repositories;
 
 import com.example.ExchangePoint.entity.Report;
-import javassist.LoaderClassPath;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -26,22 +24,22 @@ public class ReportRepositoryDataJpaTest {
     void shouldFindByDates() {
         Report report1 = new Report();
         report1.setId(1L);
-        report1.setDate(LocalDate.of(2021,9,20));
+        report1.setDate(LocalDate.of(2021, 9, 20));
         instance.save(report1);
 
         Report report2 = new Report();
         report2.setId(2L);
-        report2.setDate(LocalDate.of(2021,9,19));
+        report2.setDate(LocalDate.of(2021, 9, 19));
         instance.save(report2);
 
         Report report3 = new Report();
         report3.setId(3L);
-        report3.setDate(LocalDate.of(2021,9,18));
+        report3.setDate(LocalDate.of(2021, 9, 18));
         instance.save(report3);
 
         List<Report> reportBetweenDates = instance.findByDateBetween(
-                LocalDate.of(2021,9,18),
-                LocalDate.of(2021,9,20));
+                LocalDate.of(2021, 9, 18),
+                LocalDate.of(2021, 9, 20));
 
         Assertions.assertFalse(reportBetweenDates.isEmpty());
     }

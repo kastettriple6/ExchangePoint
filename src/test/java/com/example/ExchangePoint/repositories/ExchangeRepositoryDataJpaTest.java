@@ -4,7 +4,6 @@ import com.example.ExchangePoint.entity.Currency;
 import com.example.ExchangePoint.entity.ExchangeRequest;
 import com.example.ExchangePoint.entity.OperationType;
 import com.example.ExchangePoint.entity.RequestStatus;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -46,7 +45,7 @@ public class ExchangeRepositoryDataJpaTest {
     void shouldReturnListByDate() {
         ExchangeRequest request1 = new ExchangeRequest();
         request1.setClientPhoneNumber(9379998);
-        request1.setRequestTime(LocalDate.of(2021,9,21));
+        request1.setRequestTime(LocalDate.of(2021, 9, 21));
         instance.save(request1);
 
         ExchangeRequest request2 = new ExchangeRequest();

@@ -15,6 +15,8 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -59,6 +61,7 @@ public class ExchangePointService {
         requestEntity.setClientPhoneNumber(request.getClientPhoneNumber());
         requestEntity.setStatus(RequestStatus.NEW);
         requestEntity.setConfirmationCode((long) (Math.random() * (9999L - 1000L + 1L) + 1000L));
+        requestEntity.setSession(session);
         exchangeRepository.save(requestEntity);
     }
 
@@ -109,7 +112,8 @@ public class ExchangePointService {
         for (OperationType operationType : type) {
             for (Currency currency : curr) {
                 List<ExchangeRequest> singleResult = exchangeRepository.findByTypeAndCurrencyToExchange(operationType, currency);
-                String amounts = String.valueOf(singleResult.stream().map(ExchangeRequest::getCurrencyAmountIn).reduce(0.0, Double::sum));
+                List<ExchangeRequest> requestsPerSession = singleResult.stream().filter(exchangeRequest -> Objects.equals(exchangeRequest.getRequestTime(), session.getDate())).collect(Collectors.toList());
+                String amounts = String.valueOf(requestsPerSession.stream().map(ExchangeRequest::getCurrencyAmountIn).reduce(0.0, Double::sum));
                 String operationAndCcy = String.valueOf(currency).concat("_").concat(String.valueOf(operationType));
                 salesReport.put(operationAndCcy, amounts);
             }
